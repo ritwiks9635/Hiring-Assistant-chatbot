@@ -8,13 +8,13 @@ WORKDIR /app
 COPY backend backend
 COPY frontend frontend
 COPY requirements.txt .
-COPY api_key.env .
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Set environment variable for API key
-ENV GOOGLE_API_KEY=$(cat api_key.env | grep GOOGLE_API_KEY | cut -d '=' -f2)
+# Use build argument to pass API key
+ARG GOOGLE_API_KEY
+ENV GOOGLE_API_KEY=${GOOGLE_API_KEY}
 
 # Expose Streamlit's default port
 EXPOSE 8501
